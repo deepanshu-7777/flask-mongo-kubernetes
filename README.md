@@ -1,16 +1,18 @@
-🚀 Flask + MongoDB on Kubernetes (Minikube)
-
-📌Project Overview
+📌 Project Overview
 
 This project demonstrates deploying a Python Flask application connected to MongoDB on a Kubernetes cluster using Minikube.
 The setup includes containerization, secure database authentication, persistent storage, internal/external services, resource management, and Horizontal Pod Autoscaling (HPA).
 
-🧰Tech Stack
+🧰 Tech Stack
 
 Backend: Python (Flask)
+
 Database: MongoDB
+
 Containerization: Docker
+
 Orchestration: Kubernetes (Minikube)
+
 Autoscaling: Horizontal Pod Autoscaler (HPA)
 
 📁 Project Structure
@@ -64,24 +66,39 @@ minikube addons enable metrics-server
 
 2️⃣ MongoDB Setup
 MongoDB Authentication (Secret)
+
 Credentials are stored securely using Kubernetes Secrets.
+
 MongoDB StatefulSet
+
 MongoDB is deployed as a StatefulSet to ensure stable identity.
+
 Authentication is enabled using environment variables.
+
 Resource requests and limits are configured.
+
 MongoDB Service
+
 Exposed internally using ClusterIP service.
+
 Accessible only inside the cluster.
 
 3️⃣ Flask Application Deployment
 
 Deployed using Deployment with 2 replicas.
+
 Connected to MongoDB using Kubernetes DNS.
+
 Resource requests and limits applied.
+
 Flask Service
+
 Exposed using NodePort service.
+
 Accessible from local machine via Minikube.
+
 Access the application:
+
 minikube service flask-service
 
 🌐 DNS Resolution in Kubernetes
@@ -93,14 +110,19 @@ Example:
 
 mongodb://admin:password@mongo:27017
 
+
 Here:
+
 mongo → MongoDB service name
+
 Kubernetes DNS resolves it to the MongoDB pod IP automatically
+
 This enables reliable inter-pod communication without hardcoded IPs.
 
 📦 Persistent Storage
 
 MongoDB data is persisted using Kubernetes volumes.
+
 This ensures data is not lost when pods restart.
 
 📊 Resource Requests & Limits
@@ -117,29 +139,39 @@ limits:
 Why this is important:
 
 Requests guarantee minimum resources.
+
 Limits prevent resource overuse.
+
 Ensures cluster stability and fair resource usage.
 
 📈 Autoscaling (HPA)
 Configuration
 
 Minimum replicas: 2
+
 Maximum replicas: 5
+
 Scaling metric: CPU utilization
+
 Threshold: 70%
+
 HPA YAML
+
 Horizontal Pod Autoscaler is configured to automatically scale Flask pods based on CPU load.
 
 🔥 Autoscaling Testing
 Load Generation
 
 A BusyBox pod was used to generate continuous traffic:
+
 while true; do wget -q -O- http://flask-service:5000; done
 
 Observations
 
 CPU utilization crossed 70%
+
 HPA increased Flask replicas from 2 to multiple pods
+
 Verified using:
 
 kubectl get hpa
@@ -149,7 +181,9 @@ kubectl get pods
 📸 Screenshots included in submission show:
 
 HPA CPU metrics
+
 Increased number of Flask pods
+
 Running application in browser during load
 
 📸 Screenshots
@@ -159,19 +193,27 @@ Running application in browser during load
 ![Application Running](screenshots/app_running.png)
 ![Load Generation](screenshots/load_generator.png)
 
+
 🧪 Testing Scenarios
 
 Verified database insert & fetch operations
+
 Tested service accessibility from browser
+
 Tested autoscaling under high traffic
+
 Observed automatic scale-down after stopping load
 
 🏗 Design Choices
 
 StatefulSet for MongoDB: ensures stable storage & identity
+
 Deployment for Flask: supports easy scaling
+
 ClusterIP for MongoDB: secures database from external access
+
 NodePort for Flask: simple local access via Minikube
+
 HPA: ensures application scalability under load
 
 ⚠️ Issues Faced & Resolution
@@ -186,6 +228,6 @@ Resolved using kubectl exec instead of interactive run.
 
 This project successfully demonstrates deploying a production-ready Flask and MongoDB application on Kubernetes with authentication, autoscaling, persistent storage, and proper resource management.
 
-
 Author
+
 Deepanshu Tayal
